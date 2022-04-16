@@ -56,7 +56,9 @@
       "esri/widgets/Print",
       "esri/widgets/BasemapGallery",
       "esri/widgets/Bookmarks",
-      "esri/PopupTemplate"
+      "esri/PopupTemplate",
+      "esri/widgets/Search",
+      "esri/widgets/LayerList"
       ],
       (Map,
       MapView,
@@ -68,7 +70,9 @@
       Print,
       BasemapGallery,
       Bookmarks,
-      PopupTemplate) => {
+      PopupTemplate,
+      Search,
+      LayerList) => {
         
         const layer = new FeatureLayer({
         url: "https://www.geosceneonline.cn/server/rest/services/Hosted/%E6%9C%BA%E5%9C%BA2/FeatureServer"
@@ -126,7 +130,20 @@
           editingEnabled: true
         });
         
-       
+        const search = new Search({
+                view: view
+            });
+            // Adds the search widget below other elements in
+            // the top left corner of the view
+        const layerList = new LayerList({
+          view: view
+        });
+
+        let laexpand = new Expand({
+          view: view,
+          content: layerList,
+          expanded: false
+        });
         
         let prexpand = new Expand({
           view: view,
@@ -143,9 +160,11 @@
           content: bookmarks
         });
         
+        view.ui.add(search, "top-right");
         view.ui.add(bkExpand, "top-right");
     //    view.ui.add(basemapGallery, "top-right");
         view.ui.add(home, "top-left");
+        view.ui.add(laexpand, "top-left");
         view.ui.add(legend, "bottom-left");
         view.ui.add(scaleBar, "bottom-left");
         view.ui.add(prexpand, "top-right");
